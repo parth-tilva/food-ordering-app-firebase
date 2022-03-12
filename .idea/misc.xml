@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/parth/Downloads/FoodOrderingApp/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/parth/Downloads/FoodOrderingApp/app/src/main/res/layout/activity_sign_in.xml" value="0.18055555555555555" />
+        <entry key="..\:/Users/parth/Downloads/FoodOrderingApp/app/src/main/res/layout/fragment_food_details.xml" value="0.22" />
+        <entry key="..\:/Users/parth/Downloads/FoodOrderingApp/app/src/main/res/layout/fragment_foods_list.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/parth/Downloads/FoodOrderingApp/app/src/main/res/layout/fragment_home.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/parth/Downloads/FoodOrderingApp/app/src/main/res/layout/fragment_order.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/parth/Downloads/FoodOrderingApp/app/src/main/res/layout/fragment_profile.xml" value="0.22" />
+        <entry key="..\:/Users/parth/Downloads/FoodOrderingApp/app/src/main/res/layout/fragment_search.xml" value="0.22" />
+        <entry key="..\:/Users/parth/Downloads/FoodOrderingApp/app/src/main/res/layout/item_canteen.xml" value="0.1" />
+        <entry key="..\:/Users/parth/Downloads/FoodOrderingApp/app/src/main/res/layout/item_order.xml" value="0.22" />
+        <entry key="..\:/Users/parth/Downloads/FoodOrderingApp/app/src/main/res/layout/progress_dialog.xml" value="0.2" />
+        <entry key="..\:/Users/parth/Downloads/FoodOrderingApp/app/src/main/res/menu/bottom_menu.xml" value="0.536" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

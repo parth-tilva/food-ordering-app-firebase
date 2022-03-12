@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/food_nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.foodorderingapp.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_foodsListFragment"
+            app:destination="@id/foodsListFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.foodorderingapp.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/orderFragment"
+        android:name="com.example.foodorderingapp.OrderFragment"
+        android:label="Your Cart" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.foodorderingapp.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_signInActivity"
+            app:destination="@id/signInActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/signInActivity"
+        android:name="com.example.foodorderingapp.SignInActivity"
+        android:label="SignInActivity" />
+    <fragment
+        android:id="@+id/foodsListFragment"
+        android:name="com.example.foodorderingapp.FoodsListFragment"
+        android:label="fragment_foods_list"
+        tools:layout="@layout/fragment_foods_list" >
+        <argument
+            android:name="canteenId"
+            app:argType="string"
+           />
+        <action
+            android:id="@+id/action_foodsListFragment_to_foodDetailsFragment"
+            app:destination="@id/foodDetailsFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/foodDetailsFragment"
+        android:name="com.example.foodorderingapp.FoodDetailsFragment"
+        android:label="fragment_food_details"
+        tools:layout="@layout/fragment_food_details" >
+        <argument
+            android:name="foodId"
+            app:argType="string" />
+        <argument
+            android:name="canteenId"
+            app:argType="string" />
+    </fragment>
+</navigation>
