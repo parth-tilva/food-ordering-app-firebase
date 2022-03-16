@@ -13,6 +13,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.launch
 
 
@@ -22,46 +23,30 @@ class OrderViewModel: ViewModel() {
     private val uid = FirebaseAuth.getInstance().uid!!
 
     val firestore = FirebaseFirestore.getInstance()
-    //_newOrders.add(_currentFood.value!!)
-    val docRef = firestore.collection("users").document(uid)
 
 
-    private val _order = MutableLiveData<MutableList<Food>>()
+    //val docRef = firestore.collection("users").document(uid)
+
+    private val _order = MutableLiveData<MutableList<Food>>()  // mutableList??
     val order :LiveData<MutableList<Food>> = _order
 
+    private val _foodList = MutableLiveData<List<Food>>()
+    val foodList: LiveData<List<Food>>  = _foodList
 
-    private val _newOrders = mutableListOf<Food>()
-    val newOrders : MutableList<Food> = _newOrders
+
+//    private val _newOrders = mutableListOf<Food>()
+//    val newOrders : MutableList<Food> = _newOrders
 
     private val _currentFood = MutableLiveData<Food>()
     val currentFood : LiveData<Food> = _currentFood
 
-//    private val _currFood = Food()
-//    val currFood :Food = _currFood
-
-    init {
-        //initialize()
-    }
-
-//    private fun initialize(){
-//        viewModelScope.launch {
-//            val docRef = FirebaseFirestore.getInstance().collection("users").document(uid).get()
-//
-//            docRef.addOnSuccessListener {
-//                Log.d(TAG,"name is${it.id}:${it.data}")
-//                val foodObj = it.toObject<User>()!!
-//                _order.value = foodObj.orders
-//                foodObj.orders
-//                _count.value = _order.value!!.size
-//            }
-//                .addOnFailureListener {
-//                    Log.d(TAG,"fauil in geting updating orders")
-//                }
-//        }
-//    }
 
     private val _currentCanteen = MutableLiveData<Canteen>()
     val currentCanteen: LiveData<Canteen> = _currentCanteen
+
+    private var _count = MutableLiveData<Int>(0)
+    val count :LiveData<Int> = _count
+
 
     fun setFood(food: Food){
         _currentFood.value = food
@@ -71,120 +56,66 @@ class OrderViewModel: ViewModel() {
         _currentCanteen.value = canteen
     }
 
-    private var _count = MutableLiveData<Int>(0)
-    val count :LiveData<Int> = _count
 
-    fun addDocFood(food: Food){
-        docRef.collection("Orders").add(food)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot written with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document $e", e) // ??/
-            }
+
+
+    fun removeOrder(foodPar: Food? = _currentFood.value){
+        var food = foodPar!!
+        _order.value = _order.value?.minus(food) as MutableList<Food>
+        val list :MutableList<Food> =  (_foodList.value as MutableList<Food>?)!!
+        val pos = list.indexOf(food)
+        food = food.apply { isOrdered = false }
+        list[pos] = food
+        _foodList.postValue(list)
+        _count.value = _count.value?.minus(1)
+        Log.d(TAG,"${_order.value?.size} and orderinviewmodel vale is ${order.value}")
+        Log.d(TAG,"${foodList.value}updated _foodlist")
     }
 
-    fun removeDocFood(id: String){
-        docRef.collection("Orders").document(id)
-            .delete()
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
-    }
-
-
-//     fun getId(food: Food): String {
-//        var id:String = ""
-//        docRef.collection("Orders").whereEqualTo("name" ,food.name)  //quantity
-//            .get()
-//            .addOnSuccessListener { query ->
-//                val documents = query.documents
-//                documents.forEach{
-//                    id = it.id
-//                    Log.d(TAG,"getid called id is: $id")
-//                }
-//            }
-//            .addOnFailureListener { exception ->
-//                Log.w(TAG, "Error getting documents: ", exception)
-//            }
-//        return id;
-//    }
-
-
-
-    fun increaseQ(food: Food){
-        var id = ""
-        docRef.collection("Orders").whereEqualTo("name" ,food.name)  //quantity
-            .get()
-            .addOnSuccessListener { query ->
-                val documents = query.documents
-                documents.forEach{
-                    id = it.id
-                    docRef.collection("Orders").document(id)
-                        .update("quantity",FieldValue.increment(1))
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-            }
-
-    }
-    fun decreaseQ(food: Food){
-        var id = ""
-        var quantity:Int = -50
-        docRef.collection("Orders").whereEqualTo("name" ,food.name)  //quantity
-            .get()
-            .addOnSuccessListener { query ->
-                val documents = query.documents
-                documents.forEach{
-                    id = it.id
-                    quantity = it.get("quantity").toString().toInt()
-                }
-                if(quantity<=1){
-                    _count.value = _count.value!!.plus(-1)
-                    docRef.collection("Orders").document(id)
-                        .delete()
-                }
-                else{
-                    docRef.collection("Orders").document(id)
-                        .update("quantity",FieldValue.increment(-1))
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-            }
-
-    }
 
 
 
     fun addOrder(){
-        val food = _currentFood.value!!
-        var id:String = ""
-        docRef.collection("Orders").whereEqualTo("name" ,food.name)  //quantity
-            .get()
-            .addOnSuccessListener { query ->
-                val documents = query.documents
-                documents.forEach{
-                    id = it.id
-                }
-                if(id == ""){  // new order
-                    Log.d(TAG,"new Order")
-                    food.quantity=1;
-                    _count.value = _count.value!!.plus(1)
-                    addDocFood(food)
-                }
-                else{
-                    Log.d(TAG,"exsisting order $id")
-                    increaseQ(food)
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-            }
+        var food = _currentFood.value!! //.apply { isOrdered = true }
+        val list :MutableList<Food> =  (_foodList.value as MutableList<Food>?)!!
+        val pos = list.indexOf(food)
+        food = food.apply { isOrdered = true
+                            quantity=1}
+        list[pos] = food
+        _foodList.postValue(list)
 
-
+        if(_order.value == null){
+            _order.value = listOf(food) as MutableList<Food>
+        }else{
+            _order.value = _order.value!!.plus(food) as MutableList<Food>
+        }
+        _count.value = _order.value!!.size
+        Log.d(TAG,"${_order.value?.size} and orderinviewmodel vale is ${order.value}")
+        Log.d(TAG,"${foodList.value}updated _foodlist")
     }
 
+    fun initFoodList(foodList: List<Food>){
+        _foodList.value = foodList
+    }
+
+    fun increaseQ(food: Food){
+        val list = _order.value as MutableList<Food>
+        val pos = list.indexOf(food)
+        list[pos].apply { ++quantity }
+        _order.value = list
+        Log.d(TAG,"pos: $pos changed ${list[pos]}")
+    }
+
+
+    fun decreaseQ(food: Food){
+        val list = _order.value as MutableList<Food>
+        val pos = list.indexOf(food)
+            //list[pos] = list[pos].apply { quantity-- }
+        list[pos].apply { quantity-- }   /// workssssssss
+        //_order.value = list
+        _order.postValue(list)
+        Log.d(TAG,"pos: $pos changed ${list[pos]}")
+    }
 
 
 

@@ -24,7 +24,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.foodorderingapp.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.badge.BadgeDrawable
-import kotlinx.android.synthetic.main.activity_main.*
 import java.nio.file.Files.find
 
 class MainActivity : AppCompatActivity() {
@@ -53,12 +52,11 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController)   // dont know what is do????? handle action bar botton
         val options = NavOptions.Builder()
             .setLaunchSingleTop(true)
-//            .setEnterAnim(R.anim.from_right)
-//            .setExitAnim(R.anim.to_left)
-//            .setPopEnterAnim(R.anim.from_left)
-//            .setPopExitAnim(R.anim.to_right)
             .setPopUpTo(navController.graph.startDestination, false)
             .build()
+
+        val bottomNavigationView = binding.bottomNavigationView
+
         bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.homeFragment -> {

@@ -6,5 +6,6 @@ data class Food (
     val isVeg:Boolean = false,
     val foodDes:String = "",
     val photo:String ="",
-    var quantity:Int = 0
+    var quantity:Int = 0,
+    var isOrdered:Boolean = false
 )

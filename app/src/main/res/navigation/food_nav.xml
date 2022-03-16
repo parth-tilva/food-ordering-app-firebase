@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.foodorderingapp.HomeFragment"
+        android:name="com.example.foodorderingapp.ui.home.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -26,7 +26,11 @@
     <fragment
         android:id="@+id/orderFragment"
         android:name="com.example.foodorderingapp.OrderFragment"
-        android:label="Your Cart" />
+        android:label="Your Cart" >
+        <action
+            android:id="@+id/action_orderFragment_to_comformation_Fragment"
+            app:destination="@id/comformation_Fragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.foodorderingapp.ProfileFragment"
@@ -48,7 +52,7 @@
         <argument
             android:name="canteenId"
             app:argType="string"
-           />
+            android:defaultValue="" />
         <action
             android:id="@+id/action_foodsListFragment_to_foodDetailsFragment"
             app:destination="@id/foodDetailsFragment"
@@ -56,17 +60,22 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_foodsListFragment_to_orderFragment"
+            app:destination="@id/orderFragment" />
     </fragment>
     <fragment
         android:id="@+id/foodDetailsFragment"
         android:name="com.example.foodorderingapp.FoodDetailsFragment"
         android:label="fragment_food_details"
-        tools:layout="@layout/fragment_food_details" >
-        <argument
-            android:name="foodId"
-            app:argType="string" />
-        <argument
-            android:name="canteenId"
-            app:argType="string" />
+        tools:layout="@layout/fragment_food_details" />
+    <fragment
+        android:id="@+id/comformation_Fragment"
+        android:name="com.example.foodorderingapp.ComformationFragment"
+        android:label="fragment_comformation_"
+        tools:layout="@layout/fragment_comformation_" >
+        <action
+            android:id="@+id/action_comformation_Fragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

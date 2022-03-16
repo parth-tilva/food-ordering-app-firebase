@@ -1,4 +1,4 @@
-package com.example.foodorderingapp
+package com.example.foodorderingapp.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.foodorderingapp.OrderViewModel
 import com.example.foodorderingapp.adapter.CanteenAdapter
 import com.example.foodorderingapp.databinding.FragmentHomeBinding
 import com.example.foodorderingapp.data.model.Canteen
@@ -27,12 +28,10 @@ class HomeFragment : Fragment() {
     private val  TAG = "test"
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //return inflater.inflate(R.layout.fragment_home, container, false)
         _binding = FragmentHomeBinding.inflate(inflater,container,false)
         return binding.root
 
@@ -40,7 +39,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.homeFragment = this
         initRecylerview()
     }
 
@@ -48,12 +46,12 @@ class HomeFragment : Fragment() {
          mFirestore = FirebaseFirestore.getInstance()
          mQuery = mFirestore.collection("restaurants")
          val recyclerViewOptions = FirestoreRecyclerOptions.Builder<Canteen>().setQuery(mQuery, Canteen::class.java).build()
-         val lamda = fun(canteenId: String ,pos: Int){
+         adapter = CanteenAdapter(recyclerViewOptions
+         ) { canteenId, pos ->
              val action = HomeFragmentDirections.actionHomeFragmentToFoodsListFragment(canteenId)
              findNavController().navigate(action)
              viewModel.setCanteen(adapter.getItem(pos))
          }
-         adapter = CanteenAdapter(recyclerViewOptions,lamda)
          binding.canteenRvList.layoutManager = LinearLayoutManager(context)
          binding.canteenRvList.adapter = adapter
 
@@ -75,41 +73,3 @@ class HomeFragment : Fragment() {
     }
 }
 
-
-// }
-//        catch (e:FirebaseException){
-//            Log.d(TAG,"exception is e:${e}")
-//        }
-
-
-//    fun ontest(){
-//        val db = Firebase.firestore
-//        Log.d(TAG,"ontest method called")
-//
-//        val testuserdoc = hashMapOf(
-//            "First_name" to "kano",
-//            "Last_name" to "patel",
-//            "born" to 1999
-//        )
-//        db.collection("test_collection")
-//            .add(testuserdoc)
-//            .addOnSuccessListener {
-//                    docref-> binding.textView.text = docref.id
-//                Log.d(TAG,"onsucces llistner")
-//            }
-//            .addOnFailureListener {
-//                    e -> binding.textView.text = e.toString()
-//                Log.d(TAG,"onfalier llistner")
-//
-//            }
-//
-//    }
-//   mQuery.get()
-////             .addOnSuccessListener {
-////                 for(name in it){
-////                     Log.d(TAG,"name is${name.id}:${name.data}")
-////                 }
-////             }
-////             .addOnFailureListener{
-////                 Log.d(TAG,"failto get data from firebase : $it")
-////             }

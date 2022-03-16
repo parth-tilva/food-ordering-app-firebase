@@ -24,7 +24,7 @@ class FoodDetailsFragment : Fragment() {
     private val  TAG = "test"
     private var _binding: FragmentFoodDetailsBinding? = null
     private val binding get() = _binding!!
-    private val navigationArgs : FoodDetailsFragmentArgs by navArgs()
+    //private val navigationArgs : FoodDetailsFragmentArgs by navArgs()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,32 +43,11 @@ class FoodDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-            //  updateUi()
-        viewModel.currentFood.value?.let { loadData(it)
+        viewModel.currentFood.value?.let {
+            loadData(it)
         }
-//        binding.btnAddToCart.setOnClickListener {
-//            viewModel.addOrder()
-//        }
     }
 
-//    private fun updateUi() {
-//        val canteenId = navigationArgs.canteenId
-//        val foodId = navigationArgs.foodId
-//        mFirestore = FirebaseFirestore.getInstance()
-//        lateinit var foodObj : Food
-//        val currentFood = mFirestore.collection("restaurants").document(canteenId).collection("FoodItems").document(foodId).get()
-//
-//        currentFood
-//            .addOnSuccessListener { DocumentSS ->
-//             // Log.d(TAG,"name is${DocumentSS.id}:${DocumentSS.data}")
-//                foodObj = DocumentSS.toObject<Food>()!!
-//                //Log.d(TAG,"food name          is            ${foodObj.name}")
-//                loadData(foodObj)
-//            }.addOnFailureListener {
-//                Log.d(TAG,"logggggggggg ffffffaaaaaaaaaaaaaaaaaauuuuuuuuuillllllllllll")
-//            }
-//
-//    }
 
     private fun loadData(food: Food) {
         binding.apply {
@@ -80,13 +59,22 @@ class FoodDetailsFragment : Fragment() {
             }
             tvFoodName.text = food.name
             tvPrice.text = "price: " + food.price.toString()
-
             Glide.with(ivFood).load(food.photo).into(ivFood)
 
+            if(food.isOrdered){
+                btnAddToCart.text = "remove"
+            }else{
+                btnAddToCart.text = "add"
+            }
+
             btnAddToCart.setOnClickListener {
-                viewModel.addOrder()
-
-
+                if(food.isOrdered){
+                    viewModel.removeOrder()
+                    btnAddToCart.text = "add"
+                }else{
+                    viewModel.addOrder()
+                    btnAddToCart.text = "remove"
+                }
             }
         }
     }
@@ -108,17 +96,3 @@ class FoodDetailsFragment : Fragment() {
 //                    .addOnSuccessListener {
 //                    Log.d(TAG,"set referece success")
 //                }
-
-
-
-
-
-//currentFood.addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                // Document found in the offline cache
-//                val document = task.result
-//                Log.d(TAG, " document data: ${document?.data}")
-//            } else {
-//                Log.d(TAG, " get failed: ", task.exception)
-//            }
-//        }

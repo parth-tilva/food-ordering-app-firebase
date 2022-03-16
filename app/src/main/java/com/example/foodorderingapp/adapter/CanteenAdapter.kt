@@ -12,7 +12,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
-import com.example.foodorderingapp.HomeFragmentDirections
 import com.example.foodorderingapp.R
 
 
@@ -46,47 +45,4 @@ class CanteenAdapter(options: FirestoreRecyclerOptions<Canteen> ,private  val on
     }
 
 }
-//
-//            val action = HomeFragmentDirections.actionHomeFragmentToFoodsListFragment(canteenId)
-//            holder.itemView.findNavController().navigate(action)
 
-
-//            val db = Firebase.firestore
-
-//            val food = reandomFoods().getrandom()
-//            try{
-//                val canteen=db.collection("restaurants").document(id).collection("what")
-//                    .add(food).addOnSuccessListener {
-//                    Log.d(TAG,"uploaded")
-//                    }
-//                    .addOnFailureListener { exception ->
-//                        Log.d(TAG, "get failed with ", exception)
-//                    }
-//
-//            }catch(e:Exception){
-//                Log.d(TAG,"$e")
-//            }
-
-
-
-
-//                    canteen.collection("testaddOnclikItems").add(Food("Punjabi",60,true,"2 roti, Subji, Dal Chawal"))
-
-//    fun ontest(){
-//        val db = Firebase.firestore
-//        Log.d(TAG,"ontest method called")
-//
-
-//        db.collection("test_collection")
-//            .add(testuserdoc)
-//            .addOnSuccessListener {
-//                    docref-> binding.textView.text = docref.id
-//                Log.d(TAG,"onsucces llistner")
-//            }
-//            .addOnFailureListener {
-//                    e -> binding.textView.text = e.toString()
-//                Log.d(TAG,"onfalier llistner")
-//
-//            }
-//
-//    }

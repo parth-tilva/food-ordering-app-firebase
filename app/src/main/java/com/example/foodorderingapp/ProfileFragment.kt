@@ -37,13 +37,16 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.profileFragment = this
+
+        binding.bottomLogOut.setOnClickListener {
+            buttonLogOut()
+        }
     }
+
 
     fun buttonLogOut(){
         Firebase.auth.signOut()
         findNavController().navigate(R.id.action_profileFragment_to_signInActivity)
-
     }
     override fun onDestroy() {
         super.onDestroy()

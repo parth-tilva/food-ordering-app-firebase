@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodorderingapp.adapter.CanteenAdapter
 import com.example.foodorderingapp.adapter.IOrdersRVAdapter
@@ -48,64 +51,86 @@ class OrderFragment : Fragment(), IOrdersRVAdapter {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecyclerView()
+        init()
     }
 
-    private fun initRecyclerView() {
-         val uid = FirebaseAuth.getInstance().uid!!
-        mFirestore = FirebaseFirestore.getInstance()
-        mQuery = mFirestore.collection("users").document(uid).collection("Orders")
-        val recyclerViewOptions = FirestoreRecyclerOptions.Builder<Food>().setQuery(mQuery, Food::class.java).build()
-        adapter = OrderAdapter(recyclerViewOptions,this)
-        binding.orderRv.layoutManager = LinearLayoutManager(requireContext())
+    private fun init(){
+
+        adapter = OrderAdapter(this)
         binding.orderRv.adapter = adapter
+        viewModel.order.observe(this, {
+            adapter.submitList(it)
+            adapter.notifyDataSetChanged()
+        })
+
+        viewModel.order.observe(this,{ foodList ->
+
+            var total = 0
+                    foodList.forEach { food ->
+                    total += food.price * food.quantity
+                }
+
+            if(foodList.size>0){
+                binding.btnPlaceOrder.apply {
+                    visibility = View.VISIBLE
+                    text = "Place Order(Total: Rs. $total)"
+                    setOnClickListener {
+                        Toast.makeText(requireContext(),"order in process",Toast.LENGTH_LONG).show()
+                        val action = OrderFragmentDirections.actionOrderFragmentToComformationFragment()
+                        findNavController().navigate(action)
+                    }
+                }
+            }else{
+                binding.btnPlaceOrder.visibility = View.INVISIBLE
+            }
+        })
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        adapter.startListening()
-    }
 
-    override fun onStop() {
-        super.onStop()
-        adapter.stopListening()
-    }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
-    override fun onItemClickedPluse(food: Food) {
-        viewModel.increaseQ(food)
+    override fun onItemClickedPlus(food: Food) {
+       viewModel.increaseQ(food)
     }
 
-    override fun OnMinusClicked(food: Food) {
-        viewModel.decreaseQ(food)
+    override fun onMinusClicked(food: Food) {
+       viewModel.decreaseQ(food)
     }
 
-
-
-//        val orderAdapter = OrderAdapter(this)
-//        binding.orderRv.adapter = orderAdapter
-//        orderAdapter.submitList(viewModel.order.value)
-
-
-
-
-
-
-//    fun bindRecyclerView(recyclerView: RecyclerView,
-//                    data: List<MarsPhoto>?) {
-//   val adapter = recyclerView.adapter as PhotoGridAdapter
-//   adapter.submitList(data)
-//
-//}
-
-//
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
+    override fun removeItem(food: Food) {
+        viewModel.removeOrder(food)
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  private fun initRecyclerView() {
+         val uid = FirebaseAuth.getInstance().uid!!
+        mFirestore = FirebaseFirestore.getInstance()
+        mQuery = mFirestore.collection("users").document(uid).collection("Orders")
+        val recyclerViewOptions = FirestoreRecyclerOptions.Builder<Food>().setQuery(mQuery, Food::class.java).build()
+        adapter = OrderAdapter(recyclerViewOptions,this)
+        binding.orderRv.adapter = adapter
+
+    }*/

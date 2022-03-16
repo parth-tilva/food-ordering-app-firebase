@@ -15,10 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodorderingapp.databinding.FragmentFoodsListBinding
 import com.example.foodorderingapp.data.model.Food
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
-import kotlinx.android.synthetic.main.fragment_foods_list.*
+import com.google.firebase.firestore.ktx.toObjects
 
 /**
  * [FlavorFragment] allows a user to choose a cupcake flavor for the order.
@@ -31,6 +32,7 @@ class FoodsListFragment : Fragment() {
     private val  TAG = "test"
     private var _binding: FragmentFoodsListBinding? = null
     private val binding get() = _binding!!
+    var foodList =  listOf<Food>()
 
     private val navigationArgs : FoodsListFragmentArgs by navArgs()
 
@@ -44,61 +46,54 @@ class FoodsListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecyclerView()
+        init()
     }
 
-    private fun initRecyclerView() {
+    private fun init(){
         mFirestore = FirebaseFirestore.getInstance()
         val canteenId = navigationArgs.canteenId
         val foodItems = mFirestore.collection("restaurants").document(canteenId).collection("FoodItems")
-        mQuery = foodItems // mFirestore.collection("restaurants").document(canteenId).collection("FoodItems")
-        val recyclerOptions = FirestoreRecyclerOptions.Builder<Food>().setQuery(mQuery, Food::class.java).build()
-        binding.foodRvList.layoutManager = LinearLayoutManager(context)
 
-        val data = hashMapOf("canteenId" to canteenId)
 
-        val firstlambda = fun (foodId: String , pos: Int){
-            try {
-
-                foodItems.document(foodId)
-                    .set(data, SetOptions.merge())
-                    .addOnSuccessListener {
-                    Log.d(TAG,"set referece success")
-                }
-                    .addOnFailureListener {
-                        Log.d(TAG,"set referece fauilder")
-                    }
-            }catch (e:Exception){
-                Log.d(TAG,"exception on set $e")
+        if(viewModel.foodList.value == null) {
+            val task = foodItems.get().addOnSuccessListener {
+                foodList = it.toObjects()
+                viewModel.initFoodList(foodList)
+//                Log.d("TAG","${foodList.size}, and $foodList")
+                //Log.d("TAG","inilizing f list ")
             }
+        }
 
-            val action = FoodsListFragmentDirections.actionFoodsListFragmentToFoodDetailsFragment(foodId = foodId, canteenId = canteenId )
+        adapter = FoodListAdapter(){ food, _ ->
+            viewModel.setFood(food = food)
+            val action = FoodsListFragmentDirections.actionFoodsListFragmentToFoodDetailsFragment()
             findNavController().navigate(action)
-            viewModel.setFood(adapter.snapshots[pos])
         }
-        adapter = FoodListAdapter(recyclerOptions,firstlambda)
+
         binding.foodRvList.adapter = adapter
-        binding.apply {
-            viewModel.currentCanteen.value?.let{
-                textCanteenName.text  = it.name
+        viewModel.foodList.observe(this.viewLifecycleOwner,{
+            Log.d("TAG","fodlist observer called")
+            adapter.submitList(it)
+        })
+        viewModel.count.observe(this,{
+            Log.d("TAG","proceed to cart observer called")
+            if(it>0){
+                binding.proceedToCart.visibility = View.VISIBLE
             }
+        })
+        binding.textCanteenName.text = viewModel.currentCanteen.value?.name ?: ""
+
+
+        binding.proceedToCart.setOnClickListener {
+            val action = FoodsListFragmentDirections.actionFoodsListFragmentToOrderFragment()
+            findNavController().navigate(action)
         }
     }
-
-    override fun onStop() {
-        super.onStop()
-        adapter.stopListening()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        adapter.startListening()
-    }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
+
+

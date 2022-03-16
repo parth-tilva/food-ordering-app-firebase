@@ -4,15 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="homeFragment"
-            type="com.example.foodorderingapp.HomeFragment" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HomeFragment">
+        tools:context=".ui.home.HomeFragment">
 
         <!-- TODO: Update blank fragment layout -->
         <TextView
