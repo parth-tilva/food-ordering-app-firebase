@@ -3,23 +3,17 @@ package com.example.foodorderingapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.foodorderingapp.data.model.Food
 import com.example.foodorderingapp.databinding.FoodItemBinding
-import com.example.foodorderingapp.databinding.FragmentFoodsListBinding
-import com.example.foodorderingapp.databinding.ItemOrderBinding
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 private val  TAG = "test"
 
 
-class FoodListAdapter( private val onItemClicked: (Food,Int) -> Unit):ListAdapter<Food,FoodListAdapter.FoodListViewHolder>(DiffCallBack) {
+class FoodListAdapter( private val onItemClicked: (Food, Int) -> Unit):ListAdapter<Food,FoodListAdapter.FoodListViewHolder>(DiffCallBack) {
 
     class FoodListViewHolder(val binding: FoodItemBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(food: Food){

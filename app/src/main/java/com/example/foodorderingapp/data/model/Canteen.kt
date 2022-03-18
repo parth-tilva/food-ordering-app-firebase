@@ -7,9 +7,11 @@ data class Canteen(
     val price:Int=334,
     val numRatings:Int=34,
     val avgRating:Double=3.3,
-    val city:String="34"
+    val city:String="34",
+    val Id:String="",
+    val ownerName:String="Harry Potter",
+    val mobileNo:String = "0000000000"
     )
-
 
 
 /*

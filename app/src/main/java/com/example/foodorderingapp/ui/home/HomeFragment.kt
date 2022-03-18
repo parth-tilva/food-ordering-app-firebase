@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.foodorderingapp.OrderViewModel
-import com.example.foodorderingapp.adapter.CanteenAdapter
 import com.example.foodorderingapp.databinding.FragmentHomeBinding
 import com.example.foodorderingapp.data.model.Canteen
 import com.firebase.ui.firestore.FirestoreRecyclerOptions

@@ -1,30 +1,21 @@
-package com.example.foodorderingapp
+package com.example.foodorderingapp.ui.order
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.foodorderingapp.adapter.CanteenAdapter
 import com.example.foodorderingapp.adapter.IOrdersRVAdapter
 //import com.example.foodorderingapp.adapter.IOrdersRVAdapter
 import com.example.foodorderingapp.adapter.OrderAdapter
-import com.example.foodorderingapp.data.model.Canteen
 import com.example.foodorderingapp.data.model.Food
-import com.example.foodorderingapp.data.model.User
 import com.example.foodorderingapp.databinding.FragmentOrderBinding
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
+import com.example.foodorderingapp.ui.home.OrderViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.toObject
 
 
 class OrderFragment : Fragment(), IOrdersRVAdapter {
@@ -75,8 +66,7 @@ class OrderFragment : Fragment(), IOrdersRVAdapter {
                     visibility = View.VISIBLE
                     text = "Place Order(Total: Rs. $total)"
                     setOnClickListener {
-                        Toast.makeText(requireContext(),"order in process",Toast.LENGTH_LONG).show()
-                        val action = OrderFragmentDirections.actionOrderFragmentToComformationFragment()
+                        val action = OrderFragmentDirections.actionOrderFragmentToPaymentFragment(amount = total)
                         findNavController().navigate(action)
                     }
                 }

@@ -1,7 +1,5 @@
 package com.example.foodorderingapp.data.model
 
-import java.lang.reflect.Constructor
-
 data class User (
     val displayName:String = "",
     val userUrl:String = "",
@@ -16,8 +14,3 @@ data class User (
 //            currentUser.uid
 //            order arry
 //
-//val useName:String,
-//val useUrl:String,
-//val isEmailVerifed:Boolean,
-//val userEmail:String
-//val uid:Int,

@@ -1,30 +1,19 @@
-package com.example.foodorderingapp
+package com.example.foodorderingapp.ui.main
 
-import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
-import android.app.ProgressDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.foodorderingapp.R
 import com.example.foodorderingapp.databinding.ActivityMainBinding
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.example.foodorderingapp.ui.home.OrderViewModel
 import com.google.android.material.badge.BadgeDrawable
-import java.nio.file.Files.find
 
 class MainActivity : AppCompatActivity() {
 

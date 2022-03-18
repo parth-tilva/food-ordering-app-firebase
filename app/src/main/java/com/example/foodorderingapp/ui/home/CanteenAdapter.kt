@@ -1,4 +1,4 @@
-package com.example.foodorderingapp.adapter
+package com.example.foodorderingapp.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,14 +10,13 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.foodorderingapp.R
 
 
 private val TAG ="test"
 
-class CanteenAdapter(options: FirestoreRecyclerOptions<Canteen> ,private  val onItemClicked:(String, Int) -> Unit): FirestoreRecyclerAdapter<Canteen,CanteenAdapter.CanteenViewHolder>(options){
+class CanteenAdapter(options: FirestoreRecyclerOptions<Canteen>, private  val onItemClicked:(String, Int) -> Unit): FirestoreRecyclerAdapter<Canteen,CanteenAdapter.CanteenViewHolder>(options){
 
     class CanteenViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
         val textview = itemView.findViewById<TextView>(R.id.tv_canteen_name)

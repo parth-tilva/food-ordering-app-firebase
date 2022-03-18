@@ -1,20 +1,13 @@
-package com.example.foodorderingapp
+package com.example.foodorderingapp.ui.home
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.foodorderingapp.data.model.Canteen
 import com.example.foodorderingapp.data.model.Food
-import com.example.foodorderingapp.data.model.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.ktx.toObjects
-import kotlinx.coroutines.launch
 
 
 class OrderViewModel: ViewModel() {
@@ -56,9 +49,6 @@ class OrderViewModel: ViewModel() {
         _currentCanteen.value = canteen
     }
 
-
-
-
     fun removeOrder(foodPar: Food? = _currentFood.value){
         var food = foodPar!!
         _order.value = _order.value?.minus(food) as MutableList<Food>
@@ -72,7 +62,15 @@ class OrderViewModel: ViewModel() {
         Log.d(TAG,"${foodList.value}updated _foodlist")
     }
 
-
+    fun orderReset(){
+        _order.value = mutableListOf()
+        _count.value = 0
+        if(order.value==null){
+            println("null")
+        }else{
+            print("Not null")
+        }
+    }
 
 
     fun addOrder(){

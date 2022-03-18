@@ -30,9 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/scannerView"
             android:layout_centerHorizontal="true"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:text="scan something..."
-            android:textSize="30dp"
+            android:textSize="18sp"
             android:textColor="@color/black" />
     </RelativeLayout>
 </layout>

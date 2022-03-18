@@ -1,25 +1,20 @@
-package com.example.foodorderingapp
+package com.example.foodorderingapp.ui.fooddetail
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.foodorderingapp.databinding.FragmentFoodDetailsBinding
 import com.example.foodorderingapp.data.model.Food
-import com.example.foodorderingapp.data.model.User
+import com.example.foodorderingapp.ui.home.OrderViewModel
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
-import com.google.firebase.firestore.ktx.toObject
 
 
 class FoodDetailsFragment : Fragment() {
-    private val viewModel:  OrderViewModel by activityViewModels()
+    private val viewModel: OrderViewModel by activityViewModels()
     private lateinit var mFirestore: FirebaseFirestore
     private val  TAG = "test"
     private var _binding: FragmentFoodDetailsBinding? = null

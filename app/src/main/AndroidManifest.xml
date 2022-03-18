@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodOrderingApp">
         <activity
-            android:name=".SignInActivity"
+            android:name="com.example.foodorderingapp.ui.signin.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,7 @@
             </intent-filter>
             </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="false"/>
     </application>
 

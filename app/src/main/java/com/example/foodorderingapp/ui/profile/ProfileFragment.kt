@@ -1,4 +1,4 @@
-package com.example.foodorderingapp
+package com.example.foodorderingapp.ui.profile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.example.foodorderingapp.R
 import com.example.foodorderingapp.databinding.FragmentProfileBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
